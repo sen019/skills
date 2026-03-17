@@ -155,18 +155,58 @@ agent-web-compatibility/
     ├── healthcare.md     # Clinics, labs, doctors — JSON-LD + trust signals
     ├── restaurants.md    # Restaurants, cafes — JSON-LD + menu markup
     ├── salons.md         # Salons, spas — JSON-LD + staff markup
-    └── ecommerce.md      # Local D2C — JSON-LD + delivery fields
+    ├── ecommerce.md      # Local D2C — JSON-LD + delivery fields
+    └── quickcommerce.md  # Quick commerce — on-demand delivery signals
 ```
 
 ---
 
 ## Testing the Skill
 
-After the skill runs, verify its output works:
+### 1. Install
 
-1. **Schema validation** — Paste the generated JSON-LD into [Google Rich Results Test](https://search.google.com/test/rich-results)
-2. **LLM citation test** — Ask ChatGPT or Perplexity: _"Find me a [vertical] in [neighbourhood] that [specific requirement]"_ — check if the site appears
-3. **Booking simulation** — Complete the booking flow using keyboard-only navigation. If you get stuck, an agent will too.
+```bash
+npx skills add antstackio/skills
+```
+
+### 2. Trigger with a test prompt
+
+Use any of these prompts in your AI assistant (Claude, Cursor, Copilot, Windsurf, etc.):
+
+**Full audit:**
+```
+Audit this restaurant website for AI agent compatibility: https://example.com
+```
+
+**Schema + llms.txt generation:**
+```
+Generate structured data and an llms.txt for a dermatology clinic called Sunshine Skin Clinic at 42 5th Cross, Indiranagar, Bengaluru. They offer acne treatment, hair loss consultation, and skin allergy treatment. Open Mon–Fri 9am–8pm, Sat 9am–2pm. Rating: 4.6 from 128 reviews.
+```
+
+**Booking flow review:**
+```
+Review this booking flow and tell me where an AI agent would drop off: [paste HTML or describe the flow]
+```
+
+### 3. Verify the output
+
+A correct skill response must include all five of:
+
+| # | Deliverable | What to check |
+|---|-------------|---------------|
+| 1 | **Scorecard** | ✅ / ⚠️ / ❌ against all checklist items in all 3 layers |
+| 2 | **Priority fixes** | Top 3 ranked by agent-preference impact, each actionable without follow-up |
+| 3 | **Schema block** | Valid JSON-LD — paste into [Google Rich Results Test](https://search.google.com/test/rich-results) and verify no errors |
+| 4 | **llms.txt draft** | Has business name, key page paths, booking policy, trust signals |
+| 5 | **Booking flow notes** | Specific friction points (not generic advice) with concrete fixes |
+
+### 4. Validate the schema output
+
+Paste the generated JSON-LD into [Google Rich Results Test](https://search.google.com/test/rich-results). All required fields should show green with no missing-field warnings.
+
+### 5. Check recommendation quality
+
+Each recommendation must be specific enough to act on immediately. Flag it as a failure if the skill outputs anything like _"improve your structured data"_ without specifying exactly which fields to add, in which schema type, with what values.
 
 ---
 
