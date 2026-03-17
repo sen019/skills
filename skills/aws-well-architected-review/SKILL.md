@@ -1,3 +1,8 @@
+---
+title: AWS Well-Architected Review
+description: Enforces AWS Well-Architected best practices
+version: 1.0.0
+---
 # AWS Well-Architected
 
 Apply AWS Well-Architected best practices to all AWS infrastructure work. This applies whether you are **writing new infrastructure** or **reviewing existing infrastructure**.
